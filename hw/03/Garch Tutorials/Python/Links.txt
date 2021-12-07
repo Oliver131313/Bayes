@@ -1,0 +1,7 @@
+1. https://pyflux.readthedocs.io/en/latest/garch.html
+2. https://stats.stackexchange.com/questions/191852/bayesian-garch-forecasting-volatility-and-returns
+3. https://barnesanalytics.com/garch-models-in-python/
+4. https://www.oreilly.com/library/view/machine-learning-for/9781492085249/ch04.html
+5. https://towardsdatascience.com/estimating-currency-volatility-using-garch-e373cf82179d
+ 5.1. https://machinelearningmastery.com/develop-arch-and-garch-models-for-time-series-forecasting-in-python/
+6. 
