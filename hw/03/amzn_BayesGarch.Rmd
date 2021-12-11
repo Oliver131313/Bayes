@@ -1,0 +1,113 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Load packages and clear workspace
+```{r, include=FALSE}
+# Clear workspace
+rm(list=ls())
+
+#install.packages("bayesGARCH")
+#install.packages("tidyquant")
+#install.packages("LaplacesDemon")
+# Load packages
+library(tidyverse)
+library(bayesGARCH)
+library(tidyquant)
+library(LaplacesDemon)
+```
+
+Get **Adjusted Close** data for AMAZON from 2010 up to current data (11.12.2021)
+```{r}
+
+```
+
+```{r}
+getSymbols("AMZN", from='2010-01-01', to='2021-12-11')
+dates <- rownames(as.data.frame(AMZN))
+amzn <- as_tibble(AMZN$AMZN.Adjusted)
+head(amzn)
+```
+**Daily returns**
+
+```{r}
+colnames(amzn) <- "a_close"
+amzn$date <- dates
+amzn <- amzn %>% 
+    mutate(r = c(NA, (a_close[-1] - a_close[-length(a_close)]) / a_close[-length(a_close)])) %>%
+    na.omit()
+
+head(amzn)
+```
+
+**Plot the returns**
+```{r}
+plot(amzn$r, type="l")
+```
+
+```{r}
+amzn %>% 
+    pivot_longer(-date) %>%
+    ggplot(aes(x=date, y=value, group=name)) +
+    geom_line() +
+    facet_wrap("name", scales="free") +
+    # scale_x_date() +
+    theme_bw()
+    
+
+```
+
+_We use Bayesian GARCH model to estimate the volatility:_
+
+[1] Ardia, David and Hoogerheide, Lennart F. (2010). Bayesian estimation of the GARCH(1,1)
+    model with Student-t innovations. R Journal 2(2), pp.41-47 doi:10.32614/RJ-2010-014, Source: [link](https://CRAN.R-project.org/package=bayesGARCH.)
+    
+**Setting up the Priors** 
+
+```{r}
+mu.alpha <- 
+
+```
+
+
+```{r}
+r <- as.vector(amzn$r)
+MCMC <- bayesGARCH(r, control = list(n.chain = 2, l.chain = 100000))
+
+```
+
+**Plotting the conversions and distributions of parameters**
+
+```{r}
+plot(MCMC)
+```
+
+
+```{r}
+print(Geweke.Diagnostic(MCMC))
+print(is.stationary(MCMC$chain1))
+
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+plot(cars)
+```
+
